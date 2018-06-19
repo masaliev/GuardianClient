@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Guardian Client</string>
+    <string name="image_content_description_todo">TODO</string>
 </resources>
