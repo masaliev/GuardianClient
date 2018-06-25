@@ -6,6 +6,7 @@ import android.content.Context;
 import com.github.masaliev.guardianclient.di.AppComponent;
 import com.github.masaliev.guardianclient.di.DaggerAppComponent;
 import com.github.masaliev.guardianclient.di.module.AppModule;
+import com.github.masaliev.guardianclient.di.module.NetworkModule;
 
 public class App extends Application{
 
@@ -29,6 +30,8 @@ public class App extends Application{
     protected AppComponent prepareAppComponent() {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .networkModule(new NetworkModule("https://content.guardianapis.com/",
+                        "69bd329c-7c48-4b63-b562-83725159bffc"))
                 .build();
     }
 }
