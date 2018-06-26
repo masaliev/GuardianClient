@@ -58,7 +58,7 @@ public class AppSectionRepositoryTest {
                 .thenReturn(Observable.just(apiResult));
 
         //When
-        TestObserver<List<Section>> testObserver = mRepository.getSections().test();
+        TestObserver<List<? extends Section>> testObserver = mRepository.getSections().test();
         testObserver.awaitTerminalEvent();
 
         //Then
@@ -75,7 +75,7 @@ public class AppSectionRepositoryTest {
                 .thenReturn(Observable.error(error));
 
         //When
-        TestObserver<List<Section>> testObserver = mRepository.getSections().test();
+        TestObserver<List<? extends Section>> testObserver = mRepository.getSections().test();
         testObserver.awaitTerminalEvent();
 
         //Then

@@ -5,6 +5,10 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.github.masaliev.guardianclient.data.local.db.AppDatabase;
+import com.github.masaliev.guardianclient.data.local.db.AppDatabaseHelper;
+import com.github.masaliev.guardianclient.data.local.db.DatabaseHelper;
+import com.github.masaliev.guardianclient.utils.rx.AppSchedulerProvider;
+import com.github.masaliev.guardianclient.utils.rx.SchedulerProvider;
 
 import javax.inject.Singleton;
 
@@ -31,5 +35,16 @@ public class AppModule {
         return Room.databaseBuilder(context, AppDatabase.class, "GuardianClient")
                 .allowMainThreadQueries()
                 .build();
+    }
+
+    @Provides
+    SchedulerProvider provideSchedulerProvider(){
+        return new AppSchedulerProvider();
+    }
+
+    @Provides
+    @Singleton
+    DatabaseHelper provideDatabaseHelper(AppDatabase database){
+        return new AppDatabaseHelper(database);
     }
 }

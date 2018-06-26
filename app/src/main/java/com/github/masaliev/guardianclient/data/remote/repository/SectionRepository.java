@@ -8,6 +8,6 @@ import io.reactivex.Observable;
 
 public interface SectionRepository {
 
-    Observable<List<Section>> getSections();
+    Observable<List<? extends Section>> getSections();
 
 }

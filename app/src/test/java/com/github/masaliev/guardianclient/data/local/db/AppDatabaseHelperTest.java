@@ -2,6 +2,7 @@ package com.github.masaliev.guardianclient.data.local.db;
 
 import com.github.masaliev.guardianclient.data.local.db.dao.AppSectionDao;
 import com.github.masaliev.guardianclient.data.local.db.entity.AppSection;
+import com.github.masaliev.guardianclient.data.model.Section;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

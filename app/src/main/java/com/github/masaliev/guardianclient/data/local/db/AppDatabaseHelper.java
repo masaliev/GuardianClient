@@ -2,6 +2,7 @@ package com.github.masaliev.guardianclient.data.local.db;
 
 import com.github.masaliev.guardianclient.data.local.db.dao.AppSectionDao;
 import com.github.masaliev.guardianclient.data.local.db.entity.AppSection;
+import com.github.masaliev.guardianclient.data.model.Section;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ public class AppDatabaseHelper implements DatabaseHelper{
     }
 
     @Override
-    public void upgradeSections(List<AppSection> sections) {
-        mSectionDao.upgradeSections(sections);
+    public void upgradeSections(List<? extends Section> sections) {
+
+        mSectionDao.upgradeSections((List<AppSection>) sections);
     }
 }
