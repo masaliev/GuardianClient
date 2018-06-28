@@ -54,6 +54,7 @@ public class NetworkModule {
     Gson provideGson(){
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
                 .create();
     }
 

@@ -1,5 +1,6 @@
 package com.github.masaliev.guardianclient.di.module;
 
+import com.github.masaliev.guardianclient.data.remote.api.NewsApi;
 import com.github.masaliev.guardianclient.data.remote.api.SectionApi;
 import com.github.masaliev.guardianclient.data.remote.repository.AppSectionRepository;
 import com.github.masaliev.guardianclient.data.remote.repository.SectionRepository;
@@ -20,6 +21,12 @@ public class ApiModule {
     public SectionRepository provideSectionRepository(SectionApi sectionApi){
         return new AppSectionRepository(sectionApi);
     }
+
+    @Provides
+    public NewsApi provideNewsApi(Retrofit retrofit){
+        return retrofit.create(NewsApi.class);
+    }
+
 
 
 }
