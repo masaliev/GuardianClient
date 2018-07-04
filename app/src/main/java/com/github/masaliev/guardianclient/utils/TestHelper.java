@@ -9,4 +9,10 @@ public class TestHelper {
         field.setAccessible(true);
         field.set(object, value);
     }
+
+    public static Object getPrivateFieldValue(Object object, String fieldName) throws Exception{
+        Field field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(object);
+    }
 }

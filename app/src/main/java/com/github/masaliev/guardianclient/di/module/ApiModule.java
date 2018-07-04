@@ -2,7 +2,9 @@ package com.github.masaliev.guardianclient.di.module;
 
 import com.github.masaliev.guardianclient.data.remote.api.NewsApi;
 import com.github.masaliev.guardianclient.data.remote.api.SectionApi;
+import com.github.masaliev.guardianclient.data.remote.repository.AppNewsRepository;
 import com.github.masaliev.guardianclient.data.remote.repository.AppSectionRepository;
+import com.github.masaliev.guardianclient.data.remote.repository.NewsRepository;
 import com.github.masaliev.guardianclient.data.remote.repository.SectionRepository;
 
 import dagger.Module;
@@ -27,6 +29,9 @@ public class ApiModule {
         return retrofit.create(NewsApi.class);
     }
 
-
+    @Provides
+    public NewsRepository provideNewsRepository(NewsApi newsApi){
+        return new AppNewsRepository(newsApi);
+    }
 
 }
