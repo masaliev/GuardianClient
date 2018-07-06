@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -13,6 +14,7 @@ import com.github.masaliev.guardianclient.data.model.News;
 import com.github.masaliev.guardianclient.databinding.ActivityMainBinding;
 import com.github.masaliev.guardianclient.ui.adapters.NewsAdapter;
 import com.github.masaliev.guardianclient.ui.base.BaseMVVMActivity;
+import com.github.masaliev.guardianclient.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
 
@@ -46,8 +48,16 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
 
         mBinding.recyclerView.setHasFixedSize(true);
         mBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mBinding.recyclerView.setLayoutManager(linearLayoutManager);
         mBinding.recyclerView.setAdapter(mAdapter);
+
+        mBinding.recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager, 2) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mViewModel.getNews();
+            }
+        });
 
         mViewModel.getNews();
     }
@@ -73,19 +83,31 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
     }
 
     @Override
+    public void showProgress() {
+        mAdapter.setLoading(true);
+    }
+
+    @Override
     public void hideProgress() {
         mBinding.swipeLayout.setRefreshing(false);
+        mAdapter.setLoading(false);
         super.hideProgress();
 
     }
 
     @Override
-    public void populateNewsList(List<? extends News> newsList) {
-        mAdapter.setItems(newsList);
+    public void populateNewsList(List<? extends News> newsList, boolean reset) {
+        if(reset) {
+            mAdapter.setItems(newsList);
+        }else {
+            mAdapter.addItems(newsList);
+        }
     }
+
 
     @Override
     public void onRefresh() {
+        mViewModel.resetPagination();
         mViewModel.getNews();
     }
 }

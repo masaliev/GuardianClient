@@ -2,6 +2,7 @@ package com.github.masaliev.guardianclient.data.remote.repository;
 
 import com.github.masaliev.guardianclient.data.model.AppNews;
 import com.github.masaliev.guardianclient.data.model.News;
+import com.github.masaliev.guardianclient.data.model.PaginationResult;
 import com.github.masaliev.guardianclient.data.remote.api.NewsApi;
 import com.github.masaliev.guardianclient.data.remote.model.ApiResponse;
 import com.github.masaliev.guardianclient.data.remote.model.ApiResult;
@@ -19,6 +20,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,36 +51,41 @@ public class AppNewsRepositoryTest {
         newsList.add(mock(AppNews.class));
         newsList.add(mock(AppNews.class));
 
-        apiResponse.total = newsList.size();
+        int page = 1;
+        apiResponse.currentPage = 1;
+        apiResponse.totalPages = 2;
         apiResponse.results = newsList;
         apiResult.response = apiResponse;
-        when(mNewsApi.getNews())
+        when(mNewsApi.getNews(anyInt()))
                 .thenReturn(Observable.just(apiResult));
 
         //When
-        TestObserver<List<? extends News>> testObserver = mNewsRepository.getNews().test();
+        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(page).test();
         testObserver.awaitTerminalEvent();
 
         //Then
-        verify(mNewsApi).getNews();
+        verify(mNewsApi).getNews(page);
         testObserver.assertNoErrors()
-                .assertValue(newses -> newses.size() == newsList.size());
+                .assertValue(paginationResult -> paginationResult.currentPage == 1
+                        && paginationResult.totalPages == 2
+                        && paginationResult.results.size() == newsList.size());
     }
 
 
     @Test
-    public void getNews_onErrorResponce_hasError(){
+    public void getNews_onErrorResponse_hasError(){
         //Given
+        int page = 2;
         IOException error = new IOException();
-        when(mNewsApi.getNews())
+        when(mNewsApi.getNews(anyInt()))
                 .thenReturn(Observable.error(error));
 
         //When
-        TestObserver<List<? extends News>> testObserver = mNewsRepository.getNews().test();
+        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(page).test();
         testObserver.awaitTerminalEvent();
 
         //Then
-        verify(mNewsApi).getNews();
+        verify(mNewsApi).getNews(page);
         testObserver.assertError(error);
     }
 }

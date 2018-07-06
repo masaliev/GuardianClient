@@ -51,7 +51,8 @@ public class AppSectionRepositoryTest {
         sectionList.add(mock(AppSection.class));
         sectionList.add(mock(AppSection.class));
 
-        apiResponse.total = sectionList.size();
+        apiResponse.currentPage = 1;
+        apiResponse.totalPages = 1;
         apiResponse.results = sectionList;
         apiResult.response = apiResponse;
         when(mSectionApi.getSections())
