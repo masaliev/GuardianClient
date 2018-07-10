@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 public class AppDatabaseHelper implements DatabaseHelper{
 
     private final AppSectionDao mSectionDao;
@@ -21,5 +23,10 @@ public class AppDatabaseHelper implements DatabaseHelper{
     public void upgradeSections(List<? extends Section> sections) {
 
         mSectionDao.upgradeSections((List<AppSection>) sections);
+    }
+
+    @Override
+    public Observable<List<? extends Section>> getSections() {
+        return Observable.defer(() -> Observable.just(mSectionDao.getAll()));
     }
 }

@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 
 public interface NewsApi {
     @GET("search?show-fields=thumbnail,trailText")
-    Observable<ApiResult<AppNews>> getNews(@Query("page") int page);
+    Observable<ApiResult<AppNews>> getNews(@Query("section") String section, @Query("page") int page);
 }

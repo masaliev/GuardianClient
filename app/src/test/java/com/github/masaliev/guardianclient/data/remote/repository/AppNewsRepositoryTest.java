@@ -20,6 +20,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -56,15 +57,15 @@ public class AppNewsRepositoryTest {
         apiResponse.totalPages = 2;
         apiResponse.results = newsList;
         apiResult.response = apiResponse;
-        when(mNewsApi.getNews(anyInt()))
+        when(mNewsApi.getNews(any(), anyInt()))
                 .thenReturn(Observable.just(apiResult));
 
         //When
-        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(page).test();
+        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(null, page).test();
         testObserver.awaitTerminalEvent();
 
         //Then
-        verify(mNewsApi).getNews(page);
+        verify(mNewsApi).getNews(null, page);
         testObserver.assertNoErrors()
                 .assertValue(paginationResult -> paginationResult.currentPage == 1
                         && paginationResult.totalPages == 2
@@ -77,15 +78,15 @@ public class AppNewsRepositoryTest {
         //Given
         int page = 2;
         IOException error = new IOException();
-        when(mNewsApi.getNews(anyInt()))
+        when(mNewsApi.getNews(any(), anyInt()))
                 .thenReturn(Observable.error(error));
 
         //When
-        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(page).test();
+        TestObserver<PaginationResult<? extends News>> testObserver = mNewsRepository.getNews(null, page).test();
         testObserver.awaitTerminalEvent();
 
         //Then
-        verify(mNewsApi).getNews(page);
+        verify(mNewsApi).getNews(null, page);
         testObserver.assertError(error);
     }
 }

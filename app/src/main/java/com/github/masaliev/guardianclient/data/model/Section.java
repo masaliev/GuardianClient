@@ -1,6 +1,8 @@
 package com.github.masaliev.guardianclient.data.model;
 
-public interface Section {
+import java.io.Serializable;
+
+public interface Section extends Serializable{
     String getId();
     String getTitle();
 }

@@ -69,12 +69,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     //material dialog
-    implementation ('com.afollestad.material-dialogs:core:0.9.6.0'){
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0') {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 
     //picasso
-    implementation ('com.squareup.picasso:picasso:2.71828'){
+    implementation('com.squareup.picasso:picasso:2.71828') {
         exclude group: 'com.android.support', module: 'exifinterface'
     }
 }

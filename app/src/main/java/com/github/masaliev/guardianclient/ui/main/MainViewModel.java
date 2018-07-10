@@ -2,6 +2,7 @@ package com.github.masaliev.guardianclient.ui.main;
 
 import android.databinding.ObservableBoolean;
 
+import com.github.masaliev.guardianclient.data.model.Section;
 import com.github.masaliev.guardianclient.data.remote.repository.NewsRepository;
 import com.github.masaliev.guardianclient.ui.base.BaseViewModel;
 import com.github.masaliev.guardianclient.utils.rx.SchedulerProvider;
@@ -11,6 +12,8 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     private final NewsRepository mNewsRepository;
 
     public ObservableBoolean isEmptyList = new ObservableBoolean(false);
+
+    private Section mSelectedSection;
 
     private int nextPage = 1;
     private boolean hasNext = true;
@@ -28,7 +31,7 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
         }
         isLoading = true;
         getNavigator().showProgress();
-        getCompositeDisposable().add(mNewsRepository.getNews(nextPage)
+        getCompositeDisposable().add(mNewsRepository.getNews(mSelectedSection, nextPage)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(paginationResult -> {
@@ -47,5 +50,15 @@ public class MainViewModel extends BaseViewModel<MainNavigator> {
     public void resetPagination(){
         nextPage = 1;
         hasNext = true;
+    }
+
+    public void setSelectedSection(Section section){
+        mSelectedSection = section;
+        resetPagination();
+        getNews();
+    }
+
+    public Section getSelectedSection() {
+        return mSelectedSection;
     }
 }

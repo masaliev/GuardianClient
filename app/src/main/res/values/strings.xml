@@ -3,4 +3,5 @@
     <string name="image_content_description_todo">TODO</string>
     <string name="please_wait">Please, wait</string>
     <string name="no_news_found">No news found</string>
+    <string name="filter">Filter</string>
 </resources>

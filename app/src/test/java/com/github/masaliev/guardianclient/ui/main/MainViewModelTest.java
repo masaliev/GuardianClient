@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -61,7 +62,7 @@ public class MainViewModelTest {
         paginationResult.currentPage = 2;
         paginationResult.totalPages = 3;
         paginationResult.results = newsList;
-        when(mNewsRepository.getNews(anyInt()))
+        when(mNewsRepository.getNews(any(), anyInt()))
                 .thenReturn(Observable.just(paginationResult));
         TestHelper.setPrivateFieldValue(mViewModel, "nextPage", 2);
 
@@ -71,7 +72,7 @@ public class MainViewModelTest {
 
         //Then
         verify(mNavigator).showProgress();
-        verify(mNewsRepository).getNews(2);
+        verify(mNewsRepository).getNews(any(),eq(2));
         assertEquals(3, TestHelper.getPrivateFieldValue(mViewModel, "nextPage"));
         assertEquals(true, TestHelper.getPrivateFieldValue(mViewModel, "hasNext"));
         assertEquals(false, TestHelper.getPrivateFieldValue(mViewModel, "isLoading"));
@@ -86,7 +87,7 @@ public class MainViewModelTest {
     public void getNews_onError_correctCalls() throws Exception{
         //Given
         Throwable throwable = new IOException();
-        when(mNewsRepository.getNews(anyInt()))
+        when(mNewsRepository.getNews(any(), anyInt()))
                 .thenReturn(Observable.error(throwable));
         TestHelper.setPrivateFieldValue(mViewModel, "nextPage", 2);
 
@@ -96,7 +97,7 @@ public class MainViewModelTest {
 
         //Then
         verify(mNavigator).showProgress();
-        verify(mNewsRepository).getNews(2);
+        verify(mNewsRepository).getNews(null, 2);
         assertEquals(2, TestHelper.getPrivateFieldValue(mViewModel, "nextPage"));
         assertEquals(false, TestHelper.getPrivateFieldValue(mViewModel, "isLoading"));
         verify(mNavigator, never()).populateNewsList(anyList(), anyBoolean());
@@ -115,7 +116,7 @@ public class MainViewModelTest {
         mViewModel.getNews();
 
         //Then
-        verify(mNewsRepository, never()).getNews(anyInt());
+        verify(mNewsRepository, never()).getNews(any(), anyInt());
         verify(mNavigator, never()).showProgress();
     }
 
@@ -128,7 +129,7 @@ public class MainViewModelTest {
         mViewModel.getNews();
 
         //Then
-        verify(mNewsRepository, never()).getNews(anyInt());
+        verify(mNewsRepository, never()).getNews(any(), anyInt());
         verify(mNavigator, never()).showProgress();
     }
 
@@ -144,7 +145,7 @@ public class MainViewModelTest {
         paginationResult.currentPage = 3;
         paginationResult.totalPages = 3;
         paginationResult.results = newsList;
-        when(mNewsRepository.getNews(anyInt()))
+        when(mNewsRepository.getNews(any(), anyInt()))
                 .thenReturn(Observable.just(paginationResult));
         TestHelper.setPrivateFieldValue(mViewModel, "nextPage", 3);
 
@@ -153,7 +154,7 @@ public class MainViewModelTest {
         mTestScheduler.triggerActions();
 
         //Then
-        verify(mNewsRepository).getNews(3);
+        verify(mNewsRepository).getNews(null,3);
         assertEquals(false, TestHelper.getPrivateFieldValue(mViewModel, "hasNext"));
     }
 
@@ -169,7 +170,7 @@ public class MainViewModelTest {
         paginationResult.currentPage = 1;
         paginationResult.totalPages = 3;
         paginationResult.results = newsList;
-        when(mNewsRepository.getNews(anyInt()))
+        when(mNewsRepository.getNews(any(), anyInt()))
                 .thenReturn(Observable.just(paginationResult));
 
         //When

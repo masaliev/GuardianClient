@@ -33,4 +33,9 @@ public class AppSection implements Section, Serializable {
     public String getTitle() {
         return title;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof AppSection && ((AppSection) obj).id.equals(this.id);
+    }
 }
