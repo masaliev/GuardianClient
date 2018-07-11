@@ -2,6 +2,7 @@ package com.github.masaliev.guardianclient.utils;
 
 import android.databinding.BindingAdapter;
 import android.support.annotation.IdRes;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,16 @@ public class BindingHelper {
         }catch (Exception ignored){
             ignored.printStackTrace();
             textView.setText(null);
+        }
+    }
+
+    @BindingAdapter("html")
+    public static void setHtml(TextView textView, String html){
+        if(html == null){
+            textView.setText(null);
+        }else {
+
+            textView.setText(Html.fromHtml(html));
         }
     }
 }
