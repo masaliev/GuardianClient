@@ -2,8 +2,11 @@ package com.github.masaliev.guardianclient.di.module;
 
 import com.github.masaliev.guardianclient.BuildConfig;
 import com.github.masaliev.guardianclient.data.remote.helper.ApiKeyInterceptor;
+import com.github.masaliev.guardianclient.data.remote.helper.GsonUTCDateAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.Date;
 
 import javax.inject.Singleton;
 
@@ -54,7 +57,7 @@ public class NetworkModule {
     Gson provideGson(){
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
                 .create();
     }
 
