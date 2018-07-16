@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.github.masaliev.guardianclient.App;
@@ -20,6 +19,7 @@ import com.github.masaliev.guardianclient.databinding.ActivityMainBinding;
 import com.github.masaliev.guardianclient.ui.adapters.NewsAdapter;
 import com.github.masaliev.guardianclient.ui.base.BaseMVVMActivity;
 import com.github.masaliev.guardianclient.ui.filter.FilterActivity;
+import com.github.masaliev.guardianclient.ui.news_details.NewsDetailsActivity;
 import com.github.masaliev.guardianclient.utils.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -52,7 +52,9 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
         mBinding.swipeLayout.setOnRefreshListener(this);
 
         mAdapter = new NewsAdapter();
-        mAdapter.setListener(news -> Toast.makeText(MainActivity.this, "onNewsClick: " + news.getTitle(), Toast.LENGTH_SHORT).show());
+        mAdapter.setListener(news -> {
+            startActivity(NewsDetailsActivity.getStartIntent(this, news.getId()));
+        });
 
         mBinding.recyclerView.setHasFixedSize(true);
         mBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -1,8 +1,10 @@
 package com.github.masaliev.guardianclient.di.module;
 
 import com.github.masaliev.guardianclient.BuildConfig;
+import com.github.masaliev.guardianclient.data.model.news_element.NewsBody;
 import com.github.masaliev.guardianclient.data.remote.helper.ApiKeyInterceptor;
 import com.github.masaliev.guardianclient.data.remote.helper.GsonUTCDateAdapter;
+import com.github.masaliev.guardianclient.data.remote.helper.NewsBodyAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -58,6 +60,7 @@ public class NetworkModule {
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
+                .registerTypeAdapter(NewsBody.class, new NewsBodyAdapter())
                 .create();
     }
 

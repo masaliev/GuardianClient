@@ -30,4 +30,9 @@ public class AppNewsRepository implements NewsRepository{
                     return Observable.just(paginationResult);
                 });
     }
+
+    public Observable<News> getNewsById(String id){
+        return mNewsApi.getNewsById(id)
+                .flatMap(newsDetailResult -> Observable.just(newsDetailResult.response.content));
+    }
 }

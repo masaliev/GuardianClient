@@ -14,4 +14,8 @@ public class AppNewsFields implements Serializable{
     @SerializedName("trailText")
     public String shortText;
 
+    @Expose
+    @SerializedName("byline")
+    public String byline;
+
 }

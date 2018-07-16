@@ -7,6 +7,8 @@ import com.github.masaliev.guardianclient.ui.filter.FilterActivity;
 import com.github.masaliev.guardianclient.ui.filter.FilterModule;
 import com.github.masaliev.guardianclient.ui.main.MainActivity;
 import com.github.masaliev.guardianclient.ui.main.MainModule;
+import com.github.masaliev.guardianclient.ui.news_details.NewsDetailsActivity;
+import com.github.masaliev.guardianclient.ui.news_details.NewsDetailsModule;
 import com.github.masaliev.guardianclient.ui.splash.SplashActivity;
 import com.github.masaliev.guardianclient.ui.splash.SplashModule;
 
@@ -22,9 +24,11 @@ import dagger.Component;
         SplashModule.class,
         MainModule.class,
         FilterModule.class,
+        NewsDetailsModule.class,
 })
 public interface AppComponent {
     void inject(SplashActivity activity);
     void inject(MainActivity activity);
     void inject(FilterActivity activity);
+    void inject(NewsDetailsActivity activity);
 }

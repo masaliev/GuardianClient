@@ -32,6 +32,14 @@
                 android:value=".ui.main.MainActivity"
                 />
         </activity>
+        <activity android:name=".ui.news_details.NewsDetailsActivity"
+            android:parentActivityName=".ui.main.MainActivity"
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity"
+                />
+        </activity>
     </application>
 
 </manifest>

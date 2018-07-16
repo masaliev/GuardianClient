@@ -1,10 +1,13 @@
 package com.github.masaliev.guardianclient.data.model;
 
+import com.github.masaliev.guardianclient.data.model.news_element.NewsBody;
+import com.github.masaliev.guardianclient.data.model.news_element.NewsElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class AppNews implements Serializable, News {
 
@@ -21,6 +24,10 @@ public class AppNews implements Serializable, News {
     @Expose
     @SerializedName("webPublicationDate")
     public Date date;
+
+    @Expose
+    @SerializedName("blocks")
+    public NewsBody elements;
 
     @Override
     public String getId() {
@@ -45,5 +52,15 @@ public class AppNews implements Serializable, News {
     @Override
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public String getAuthor() {
+        return fields != null ? fields.byline : null;
+    }
+
+    @Override
+    public List<? extends NewsElement> getElements() {
+        return elements;
     }
 }
